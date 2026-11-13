@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ตั้งค่า Supabase — Project Tracker Tempest</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.guide{display:grid;gap:17px;max-width:920px;margin:22px auto}
+.guide-step{background:#fff;border:1px solid #dce6f5;padding:22px 26px;border-radius:14px;line-height:1.8}
+.guide-step h2{margin-top:0;font-size:22px;color:#153b7d}
+.guide-step a{color:#275bc0}
+.guide-step code,.guide-step pre{font-family:ui-monospace,Consolas,monospace;font-size:14px;overflow-wrap:anywhere}
+.guide-step pre{overflow:auto;background:#0f1c38;color:#e4f0ff;padding:16px;border-radius:8px;line-height:1.65}
+.guide-step p{margin:8px 0}
+</style></head><body><main class="shell">
+<header class="hero"><div class="eyebrow">FIRST-TIME SETUP</div>
+<h1>ตั้งค่า Project Tracker กับ Supabase ของคุณ</h1>
+<p>ใช้เพียง Supabase Project ใหม่ของคุณเอง ไม่ต้องใช้ฐานข้อมูลของผู้สร้าง Template</p>
+<a class="hero-back" href="./index.html">← กลับหน้า Tracker</a></header>
+<section class="guide">
+<div class="guide-step"><h2>1. Clone หรือ Use this template</h2>
+<p>นำ Repository ไปไว้ใน GitHub ของตัวเอง หรือ Clone ลงเครื่อง จากนั้นเปิดไฟล์ทั้งหมดใน VS Code</p>
+<p><a href="https://github.com/Bunyakhon/project-tracker-tempest" target="_blank" rel="noopener noreferrer">เปิด Repository ต้นฉบับ</a></p></div>
+<div class="guide-step"><h2>2. สร้าง Supabase Project ใหม่</h2>
+<p>ไปที่ <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer">Supabase Dashboard</a> เลือก <strong>New project</strong> แล้วเข้า <strong>SQL Editor</strong></p>
+<p>เปิดไฟล์ <a href="./supabase/SETUP.sql">supabase/SETUP.sql</a> คัดลอก SQL ทั้งหมดไปรันใน Project <strong>ใหม่</strong> เพียงครั้งเดียว เพื่อสร้างตารางและ Private Storage Bucket</p></div>
+<div class="guide-step"><h2>3. ใส่ค่า Supabase ของคุณใน config.js</h2>
+<p>จาก Supabase คัดลอก <strong>Project URL</strong> และ <strong>Publishable Key</strong> แล้วเปลี่ยนในไฟล์ <code>config.js</code>:</p>
+<pre>window.TRACKER_CONFIG = Object.freeze({
+  SUPABASE_URL: "https://YOUR-PROJECT.supabase.co",
+  SUPABASE_PUBLISHABLE_KEY: "sb_publishable_YOUR_PUBLIC_KEY"
+});</pre>
+<p><strong>ห้าม</strong> ใส่ Secret Key, service_role หรือ Database Password ลงไฟล์หน้าเว็บ</p></div>
+<div class="guide-step"><h2>4. สร้างบัญชี Editor คนแรก</h2>
+<p>กลับหน้า Tracker แล้วกด <strong>สมัครบัญชี</strong> ด้วยอีเมลและรหัสผ่าน ยืนยันอีเมลหาก Supabase กำหนด หลังจากนั้นเจ้าของ Supabase ไปที่ SQL Editor แล้วรัน:</p>
+<pre>insert into public.tracker_editors (user_id)
+select id from auth.users
+where lower(email)=lower('YOUR_EMAIL@example.com')
+on conflict (user_id) do nothing;</pre>
+<p>แก้ <code>YOUR_EMAIL@example.com</code> เป็นอีเมลจริงของคุณ แล้วเข้าสู่ระบบอีกครั้ง จะได้รับสิทธิ์ Editor</p></div>
+<div class="guide-step"><h2>5. เริ่มสร้างโครงการและ Deploy เอง</h2>
+<p>กรอกชื่อโครงการ จำนวนสัปดาห์ และรายการข้อใหม่ได้ทันที โครงการเริ่มต้นเป็นข้อมูลว่าง ไม่มีข้อมูล CoopConnect</p>
+<p>เมื่อทดสอบเสร็จ Push Repository และเปิด <strong>Settings → Pages</strong> ใน GitHub เพื่อเผยแพร่เว็บของตัวเอง ตั้ง Supabase Auth Site URL / Redirect URLs ให้ตรงเว็บไซต์</p>
+<p><strong>สำคัญ:</strong> รายการโครงการ/งาน/โน้ตเป็นข้อมูลสาธารณะ ส่วนภาพหลักฐานต้องล็อกอินก่อนจึงดูได้</p>
+<p>ดูรายละเอียดทุกขั้นตอนและการแก้ปัญหาได้ในไฟล์ <a href="./SETUP.md">SETUP.md</a></p></div>
+</section></main></body></html>
