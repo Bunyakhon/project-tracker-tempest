@@ -226,7 +226,6 @@ async function account(){
   const result=await db.auth.getUser();user=result.error?null:result.data.user;editor=false;
   if(user){const r=await db.from('tracker_editors').select('user_id').eq('user_id',user.id).maybeSingle();editor=!r.error&&!!r.data;}
   if(ready)await loadEvidence();
-  if(ready)await loadEvidence();
   render();
  }catch(e){tell(e.message,true);}
 }
